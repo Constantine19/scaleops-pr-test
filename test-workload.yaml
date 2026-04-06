@@ -22,11 +22,11 @@ spec:
           image: nginx:latest
           resources:
             requests:
-              cpu: "500m"         # over-provisioned — script will replace this
-              memory: "400Mi"     # over-provisioned — script will replace this
+              cpu: "5000m"         # over-provisioned — script will replace this
+              memory: "4000Mi"     # over-provisioned — script will replace this
             limits:
               cpu: "1"
-              memory: "600Mi"
+              memory: "6000Mi"
 
         - name: datadog-agent     # sidecar — also matched and patched
           image: busybox:latest
@@ -34,7 +34,7 @@ spec:
           resources:
             requests:
               cpu: "100m"
-              memory: "100Mi"
+              memory: "1000Mi"
             limits:
-              cpu: "200m"
-              memory: "200Mi"
+              cpu: "2000m"
+              memory: "2000Mi"
