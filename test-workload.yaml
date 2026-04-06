@@ -1,0 +1,40 @@
+---
+# This is what lives in the owner's GitHub repo BEFORE the PR.
+# Resources are intentionally over-provisioned (typical before ScaleOps).
+# The script should patch requests to the averaged live values.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service        # must match the Deployment name in your cluster
+  namespace: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service   # matched by container name in the script
+          image: nginx:latest
+          resources:
+            requests:
+              cpu: "500m"         # over-provisioned — script will replace this
+              memory: "400Mi"     # over-provisioned — script will replace this
+            limits:
+              cpu: "1"
+              memory: "600Mi"
+
+        - name: datadog-agent     # sidecar — also matched and patched
+          image: busybox:latest
+          command: ["sleep", "3600"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "200m"
+              memory: "200Mi"
